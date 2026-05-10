@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPe AI | Premium Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0b10;
+            --card-bg: rgba(20, 22, 32, 0.7);
+            --accent-primary: #7c4dff;
+            --accent-secondary: #00e5ff;
+            --text-main: #e0e0e6;
+            --text-dim: #9494a3;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glow-color: rgba(124, 77, 255, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(124, 77, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 229, 255, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* --- Header --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            color: #00ff9d;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff9d;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff9d;
+            animation: pulse 2s infinite;
+        }
+
+        /* --- Main Layout --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+        }
+
+        /* --- Controls --- */
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), #6200ea);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--glow-color);
+            filter: brightness(1.1);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* --- Output Area --- */
+        .output-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            min-height: 600px;
+        }
+
+        .result-container {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-dim);
+            text-align: center;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* --- Report Styling --- */
+        .report-content {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .report-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1rem;
+        }
+
+        .report-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+        }
+
+        .report-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .key-points-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .key-point-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Terminal --- */
+        .terminal {
+            background: #000;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+
+        .terminal-line { margin-bottom: 4px; }
+        .t-blue { color: #51afef; }
+        .t-green { color: #98be65; }
+        .t-purple { color: #c678dd; }
+        .t-orange { color: #da8548; }
+        .t-dim { color: #5b6268; }
+
+        /* --- Loading --- */
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 11, 16, 0.8);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(124, 77, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-primary);
+            animation: spin 1s linear infinite;
+        }
+
+        /* --- Animations --- */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 157, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="url(#grad)" />
+                    <path d="M16 8L22 14M16 8L10 14M16 8V24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#7c4dff"/>
+                            <stop offset="1" stop-color="#00e5ff"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Campus<span>Pe AI</span>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                GROQ-Llama-3.3 ACTIVE
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Sidebar Controls -->
+            <div class="controls-panel">
+                <div class="glass-card">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Report Generator
+                    </h3>
+                    <div class="input-group">
+                        <label>Report Topic</label>
+                        <input type="text" id="reportTopic" placeholder="e.g. Data Privacy 2026">
+                    </div>
+                    <div class="input-group">
+                        <label>Department</label>
+                        <select id="reportDept">
+                            <option>Engineering</option>
+                            <option>Human Resources</option>
+                            <option>Legal & Compliance</option>
+                            <option>Operations</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Context / Details</label>
+                        <textarea id="reportContext" rows="3" placeholder="Additional requirements..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="generateReport()">
+                        Generate Smart Report
+                    </button>
+                </div>
+
+                <div class="glass-card">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 11h.01M7 15h.01M13 7h.01M13 11h.01M13 15h.01M17 7h.01M17 11h.01M17 15h.01M4 21h16a2 2 0 002-2V5a2 2 0 00-2-2H4a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        Classifier
+                    </h3>
+                    <div class="input-group">
+                        <label>Content snippet</label>
+                        <textarea id="classContent" rows="2" placeholder="Paste compliance text..."></textarea>
+                    </div>
+                    <button class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);" onclick="categorize()">
+                        Analyze Content
+                    </button>
+                </div>
+
+                <div class="glass-card" style="margin-top: auto;">
+                    <h3>System Stats</h3>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 8px;">
+                        <span class="text-dim">Latency (Groq)</span>
+                        <span id="statLatency">0ms</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                        <span class="text-dim">Chroma Docs</span>
+                        <span id="statDocs">10</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Display -->
+            <div class="output-panel">
+                <div class="glass-card result-container" id="resultCard">
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="loader"></div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--accent-primary);">AI is thinking...</p>
+                    </div>
+
+                    <div class="empty-state" id="emptyState">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <p>Configure and generate a report to see the results here.</p>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">Powered by Llama 3.3 70B & Groq</p>
+                    </div>
+
+                    <div id="reportOutput" class="report-content" style="display: none;">
+                        <!-- Dynamic Content -->
+                    </div>
+                </div>
+
+                <div class="terminal" id="terminal">
+                    <div class="terminal-line"><span class="t-dim">[SYSTEM]</span> Initializing CampusPe AI Engine...</div>
+                    <div class="terminal-line"><span class="t-dim">[SYSTEM]</span> GroqClient connected to llama-3.3-70b-versatile</div>
+                    <div class="terminal-line"><span class="t-dim">[SYSTEM]</span> Ready for requests.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:5000/api/ai";
+
+        function log(msg, type = 'system') {
+            const term = document.getElementById('terminal');
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            const timestamp = new Date().toLocaleTimeString([], { hour12: false });
+            
+            let typeSpan = '';
+            if (type === 'system') typeSpan = `<span class="t-dim">[${timestamp}]</span> `;
+            if (type === 'request') typeSpan = `<span class="t-blue">[REQ]</span> `;
+            if (type === 'success') typeSpan = `<span class="t-green">[SUCCESS]</span> `;
+            if (type === 'error') typeSpan = `<span class="t-orange">[ERROR]</span> `;
+            
+            line.innerHTML = `${typeSpan} ${msg}`;
+            term.appendChild(line);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        async function generateReport() {
+            const topic = document.getElementById('reportTopic').value;
+            const dept = document.getElementById('reportDept').value;
+            const context = document.getElementById('reportContext').value;
+
+            if (!topic) {
+                alert("Please enter a topic");
+                return;
+            }
+
+            // UI State
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('reportOutput').style.display = 'none';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            
+            log(`Generating report for: ${topic} (${dept})`, 'request');
+
+            try {
+                const response = await fetch(`${API_BASE}/generate-report`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, department: dept, context })
+                });
+
+                const data = await response.json();
+                
+                if (data.error) throw new Error(data.error);
+
+                renderReport(data);
+                log(`Report generated. Tokens: ${data.meta.tokens_used}, Time: ${data.meta.response_time_ms}ms`, 'success');
+                document.getElementById('statLatency').innerText = `${data.meta.response_time_ms}ms`;
+            } catch (err) {
+                log(`Failed to generate report: ${err.message}`, 'error');
+                showError(err.message);
+            } finally {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        }
+
+        function renderReport(data) {
+            const out = document.getElementById('reportOutput');
+            out.style.display = 'block';
+            
+            out.innerHTML = `
+                <div class="report-header">
+                    <div class="report-title">${data.title}</div>
+                    <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;">
+                        Generated by AI Architect • ${new Date().toLocaleDateString()}
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <div class="section-label">Executive Summary</div>
+                    <p style="font-size: 0.95rem; line-height: 1.6;">${data.executive_summary}</p>
+                </div>
+
+                <div class="report-section">
+                    <div class="section-label">Core Key Points</div>
+                    <div class="key-points-grid">
+                        ${data.key_points.map(p => `<div class="key-point-card">${p}</div>`).join('')}
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <div class="section-label">Compliance Requirements</div>
+                    <ul style="padding-left: 20px; font-size: 0.9rem;">
+                        ${data.compliance_requirements.map(r => `<li style="margin-bottom: 8px;">${r}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <div style="flex: 1;">
+                        <div class="section-label">Recommendations</div>
+                        <div style="font-size: 0.85rem; color: #ccc;">
+                            ${data.recommendations.map(rec => `• ${rec}<br>`).join('')}
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="section-label">Resources</div>
+                        <div style="font-size: 0.85rem; color: #ccc;">
+                            ${data.resources.map(res => `• ${res}<br>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function categorize() {
+            const content = document.getElementById('classContent').value;
+            if (!content) return;
+
+            log(`Analyzing content classification...`, 'request');
+            
+            try {
+                const response = await fetch(`${API_BASE}/categorise`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+                const data = await response.json();
+                
+                log(`Classified as: <span class="t-purple">${data.category}</span> (${Math.round(data.confidence*100)}% confidence)`, 'success');
+                alert(`Classification: ${data.category}\nConfidence: ${data.confidence}\nReason: ${data.reasoning}`);
+            } catch (err) {
+                log(`Classification failed`, 'error');
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('reportOutput').style.display = 'block';
+            document.getElementById('reportOutput').innerHTML = `
+                <div style="color: #ff4d4d; border: 1px solid #ff4d4d22; padding: 20px; border-radius: 8px; background: #ff4d4d11;">
+                    <h4 style="margin-bottom: 10px;">Connection Error</h4>
+                    <p style="font-size: 0.9rem;">Ensure the Flask AI service is running on <b>localhost:5000</b>.</p>
+                    <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Details: ${msg}</p>
+                </div>
+            `;
+        }
+
+        // Mock animation for stats
+        setInterval(() => {
+            const current = parseInt(document.getElementById('statLatency').innerText);
+            if (current > 0) {
+                const jitter = Math.floor(Math.random() * 20) - 10;
+                document.getElementById('statLatency').innerText = `${Math.max(100, current + jitter)}ms`;
+            }
+        }, 3000);
+
+    </script>
+</body>
+</html>
