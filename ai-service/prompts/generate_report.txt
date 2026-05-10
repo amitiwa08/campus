@@ -1,18 +1,41 @@
-You are a compliance training expert. Generate a comprehensive compliance training report based on the following topic and context.
+You are a Senior Compliance Architect at CampusPe. Your task is to generate a comprehensive, professional compliance training report.
 
-Topic: {topic}
-Department: {department}
-Context: {context}
+### INPUT DATA
+- **Topic**: {topic}
+- **Department**: {department}
+- **Context**: {context}
 
-Create a JSON report with this exact structure:
+### INSTRUCTIONS
+1. Analyze the topic and context within the specific domain of {department}.
+2. Provide actionable, high-fidelity compliance requirements.
+3. Use a tone that is authoritative yet accessible.
+4. Ensure the key_points are specific and not generic.
+
+### OUTPUT FORMAT
+You MUST respond with a single, valid JSON object. Do NOT include any markdown formatting, preamble, or conversational filler.
+
 {{
-  "title": "descriptive title",
-  "executive_summary": "2-3 sentence overview",
-  "overview": "detailed explanation of the topic",
-  "key_points": ["point 1", "point 2", "point 3", "point 4"],
-  "compliance_requirements": ["requirement 1", "requirement 2", "requirement 3"],
-  "recommendations": ["action 1", "action 2", "action 3"],
-  "resources": ["resource 1", "resource 2"]
+  "title": "Professional Title for {topic}",
+  "executive_summary": "A high-level 2-3 sentence overview for stakeholders.",
+  "overview": "A detailed technical and operational explanation of {topic}.",
+  "key_points": [
+    "Specific point 1",
+    "Specific point 2",
+    "Specific point 3",
+    "Specific point 4"
+  ],
+  "compliance_requirements": [
+    "Req 1: Must be actionable",
+    "Req 2: Legal or regulatory reference",
+    "Req 3: Implementation detail"
+  ],
+  "recommendations": [
+    "Actionable step 1",
+    "Actionable step 2",
+    "Actionable step 3"
+  ],
+  "resources": [
+    "Resource/Link 1",
+    "Resource/Link 2"
+  ]
 }}
-
-Ensure all content is professional, accurate, and actionable.

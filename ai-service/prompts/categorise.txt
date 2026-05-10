@@ -1,17 +1,24 @@
-Analyze the following compliance training content and classify it into ONE of these categories:
-- Data Privacy (GDPR, CCPA, data protection)
-- Security (encryption, access controls, vulnerabilities)
-- Healthcare (HIPAA, patient data)
-- Financial (SOX, accounting controls)
-- Ethics (anti-bribery, conflicts of interest)
-- Accessibility (ADA, inclusive design)
-- Training (policy, procedures, awareness)
+You are an expert Compliance Auditor. Categorize the provided training content into exactly ONE of the following taxonomies.
 
-Content: {content}
+### TAXONOMIES
+- **Data Privacy**: GDPR, CCPA, data protection, PII handling.
+- **Security**: Encryption, access controls, network security, phishing.
+- **Healthcare**: HIPAA, patient privacy, medical billing.
+- **Financial**: SOX, AML, accounting controls, audit trails.
+- **Ethics**: Anti-bribery, whistleblowing, conflicts of interest.
+- **Accessibility**: ADA, WCAG, inclusive design.
+- **Training**: General awareness, onboarding procedures.
 
-Respond ONLY with valid JSON in this exact format:
+### CONTENT TO CATEGORIZE
+{content}
+
+### OUTPUT REQUIREMENTS
+- Respond ONLY with valid JSON.
+- Do NOT include any text before or after the JSON.
+- Ensure the confidence score is a float between 0 and 1.
+
 {{
-  "category": "chosen category",
-  "confidence": 0.0-1.0 confidence score,
-  "reasoning": "brief explanation (one sentence)"
+  "category": "Taxonomy Name",
+  "confidence": 0.0,
+  "reasoning": "A concise, one-sentence justification."
 }}
