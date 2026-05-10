@@ -1,0 +1,15 @@
+# Ignore files
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.venv
+venv/
+chroma_data/
+.DS_Store
+*.log
+*.tmp

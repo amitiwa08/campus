@@ -1,0 +1,18 @@
+You are a compliance training expert. Generate a comprehensive compliance training report based on the following topic and context.
+
+Topic: {topic}
+Department: {department}
+Context: {context}
+
+Create a JSON report with this exact structure:
+{{
+  "title": "descriptive title",
+  "executive_summary": "2-3 sentence overview",
+  "overview": "detailed explanation of the topic",
+  "key_points": ["point 1", "point 2", "point 3", "point 4"],
+  "compliance_requirements": ["requirement 1", "requirement 2", "requirement 3"],
+  "recommendations": ["action 1", "action 2", "action 3"],
+  "resources": ["resource 1", "resource 2"]
+}}
+
+Ensure all content is professional, accurate, and actionable.

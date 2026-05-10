@@ -1,0 +1,17 @@
+Analyze the following compliance training content and classify it into ONE of these categories:
+- Data Privacy (GDPR, CCPA, data protection)
+- Security (encryption, access controls, vulnerabilities)
+- Healthcare (HIPAA, patient data)
+- Financial (SOX, accounting controls)
+- Ethics (anti-bribery, conflicts of interest)
+- Accessibility (ADA, inclusive design)
+- Training (policy, procedures, awareness)
+
+Content: {content}
+
+Respond ONLY with valid JSON in this exact format:
+{{
+  "category": "chosen category",
+  "confidence": 0.0-1.0 confidence score,
+  "reasoning": "brief explanation (one sentence)"
+}}
